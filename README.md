@@ -1,7 +1,12 @@
-# About this Repository
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/crowdbotics-research-projects/context-cohort-03)
 
-This repository contains the starter code and instructions for a research project. Participants in the research project are expected to complete a programming [assignment](/assignment.md).
+# Project Details
 
+Welcome and thank you for being part of this research project. You are in Cohort 3 and you can find details on how to get started [here](https://crowdbotics.notion.site/Cohort-3-a845c934564d438689b99fbff5114b4c?pvs=4).
+
+Project requirements are located in this repository in the file [assignment.md](assignment.md).
+
+As part of this study you are required to ALWAYS keep the `assignment.md` file open as a tab in the Codespace. If you are unclear please see details [here](https://crowdbotics.notion.site/Cohort-3-a845c934564d438689b99fbff5114b4c?pvs=4). 
 
 ## Project Structure
 
@@ -31,17 +36,17 @@ The repository is structured as a DevContainer and contains the following featur
 
 ### Preinstalled VS Code Extensions
 
-- GitHub Copilot
 - Python
 - Pylance
 - Black formatter
 - SQL Tools for PostgreSQL
+- GitHub Copilot
 
 ## Getting Started
 
 ### Github Codespaces on the Web
 
-Open the repository on Github as a Codespace.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/crowdbotics-research-projects/context-cohort-03)
 
 ### Local Development
 
