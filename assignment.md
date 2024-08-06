@@ -3,7 +3,7 @@
 You are being asked to develop a backend using FastAPI for a (simplified) magazine subscription service. This backend service would expose a REST API that enables users to:
 
 1. Register, login, and reset their passwords.
-2. Retrieve a list of magazines available for subscription. This list should include the plans available for that magazine and the discount offered for each plan.
+2. Retrieve a list of magazines available for subscription. This list should include the plans available for each magazine and the discount offered for each plan.
 3. Create a subscription for a magazine.
 4. Retrieve, modify, and delete their subscriptions.
 
@@ -15,13 +15,13 @@ A `magazine` that is available for subscription. Includes metadata about the mag
 
 ### Plan
 
-Plans to which users can subscribe their magazines. A `Plan` object has the following properties: `title`, a `description`, a `renewalPeriod`, `discount` - a percentage, expressed as a decimal - for this plan (e.g. a `discount` of `0.1` means a 10% discount),and a `tier`. The `tier` is a numerical value that represents the level of the plan. The higher the `tier`, the more expensive the plan.
+Plans to which users can subscribe their magazines. There are 4 plans available in the system as described below.
 
-The `renewalPeriod` is a numerical value that represents the number of months in which the subscription would renew. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `1` means that the subscription renews every month.
+A `Plan` object has the following properties: `title`, a `description`, a `renewalPeriod`, `discount` - a percentage, expressed as a decimal - for this plan (e.g. a `discount` of `0.1` means a 10% discount),and a `tier`. The `tier` is a numerical value that represents the level of the plan. The higher the `tier`, the more expensive the plan.
 
-Obviously, the `Plan` table must have a relationship (via a field named `magazine_id`) to the `Magazine` table so that we can track which plans are available for which magazines since not all plans are available for all magazines.
+The `renewalPeriod` is a numerical value that represents the number of months in which the subscription would renew. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `3` means that the subscription renews every 3 months.
 
-The 4 plans that you must support are given below. Once again, remember that not all plans are available for every magazine.
+The 4 plans that you must support are given below.
 
 #### Silver Plan
 
@@ -57,7 +57,11 @@ The 4 plans that you must support are given below. Once again, remember that not
 
 ### Subscription
 
-A `Subscription` tracks which `Plan` is associated with which `Magazine` for that user. The subscription also tracks the price at renewal for that magazine and the next renewal date. The price is calculated as the `base_price` of the magazine discounted by the `discount` of the plan. For example, if the base price of the magazine is `100` and the plan discount is `0.10`, the price will be `90`. The `price` is a numerical value and must be greater than zero.
+A `Subscription` tracks which `Plan` is associated with which `Magazine` for a specific `User`. The subscription also tracks the price at renewal for that magazine and the next renewal date.
+
+A `User` can have only one `Subscription` for a specific `Magazine` and `Plan` at a time. The `Subscription` object has the following properties: `user_id`, `magazine_id`, `plan_id`, `price`, `renewal_date`, and `is_active`.
+
+The price at renewal is calculated as the `base_price` of the magazine discounted by the `discount` of the plan. For example, if the base price of the magazine is `100` and the plan discount is `0.10`, the price will be `90`. The `price` is a numerical value and must be greater than zero.
 
 For record keeping purposes, subscriptions are never deleted. If a user cancels a subscription to a magazine, the corresponding `is_active` attribute of that `Subscription` is set to `False`. Inactive subscriptions are never returned in the response when the user queries their subscriptions.
 
