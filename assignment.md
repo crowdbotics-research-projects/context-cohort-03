@@ -11,19 +11,17 @@ You are being asked to develop a backend using FastAPI for a (simplified) magazi
 
 ### Magazine
 
-A `magazine` that is available for subscription. Includes metadata about the magazine such as the `name`, `description`, a `base_price` (which is the price charged for a monthly subscription), and `discount` - a percentage, expressed as a decimal - for different subscription plans (e.g. a `discount` of `0.1` means a 10% discount).
-
-The discount for the monthly plan will be set to zero regardless of what is in the discount column in this table.
-
-In order to calculate the price of a subscription, you would subtract the discounted amount from the base price. For example, if the base price is $100 and the discount is 0.1, the price of the subscription would be $90.
-
-It is possible for a magazine to only offer a subset of plans, in which case the other plans will not be tracked in the database.
+A `magazine` that is available for subscription. Includes metadata about the magazine such as the `name`, `description`, and a `base_price` (which is the price charged for a monthly subscription)The `base_price` is a numerical value and must be greater than zero.
 
 ### Plan
 
-Plans to which users can subscribe their magazines. A `Plan` object has the following properties: `title`, a `description`, a `renewalPeriod`, and a `tier`. The `renewalPeriod` is a numerical value. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `1` means that the subscription renews every month.
+Plans to which users can subscribe their magazines. A `Plan` object has the following properties: `title`, a `description`, a `renewalPeriod`, `discount` - a percentage, expressed as a decimal - for this plan (e.g. a `discount` of `0.1` means a 10% discount),and a `tier`. The `tier` is a numerical value that represents the level of the plan. The higher the `tier`, the more expensive the plan.
 
-The plans that your backend should support are:
+The `renewalPeriod` is a numerical value. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `1` means that the subscription renews every month.
+
+Obviously, the `Plan` table must have a relationship (via a field named `magazine_id`) to the `Magazine` table so that we can track which plans are available for which magazines since not all plans are available for all magazines. 
+
+The 4 plans that you must support are given below. Once again, remember that not all plans are available for every magazine.
 
 #### Silver Plan
 
@@ -31,27 +29,31 @@ The plans that your backend should support are:
 - description: "Basic plan which renews monthly"
 - renewalPeriod: 1
 - tier: 1
+- discount: 0.0
 
 #### Gold Plan
 
-- title: Gold Plan
+- title: "Gold Plan"
 - description: "Standard plan which renews every 3 months"
 - renewalPeriod: 3
 - tier: 2
+- discount: 0.05
 
 #### Platinum Plan
 
-- title: Platinum Plan
+- title: "Platinum Plan"
 - description: "Premium plan which renews every 6 months"
 - renewalPeriod: 6
 - tier: 3
+- discount: 0.10
 
 #### Diamond Plan
 
-- title: Diamond Plan
+- title: "Diamond Plan"
 - description: "Exclusive plan which renews annually"
 - renewalPeriod: 12
 - tier: 4
+- discount: 0.25
 
 ### Subscription
 
@@ -60,5 +62,6 @@ A `Subscription` tracks which `Plan` is associated with which `Magazine` for tha
 
 ## Business Rules
 
-1. If a user modifies their subscription for a magazine, the corresponding subsciption is deactivated and a new subscription is created with a new renewal date depending on the plan that is chosen by the user.
+1. Subscriptions can be modified before the expiry of the subscription period. For example, if a user has subscribed to a magazine with a `Silver Plan` and decides to upgrade to a `Gold Plan`, the `Silver Plan` subscription is deactivated and a new subscription is created with a new renewal date for the `Gold Plan` that the user has chosen.
+2. If a user modifies their subscription for a magazine, the corresponding subsciption is deactivated and a new subscription is created with a new renewal date depending on the plan that is chosen by the user.
     1. For this purpose assume that there is no proration of the funds and no refunds are issued.
