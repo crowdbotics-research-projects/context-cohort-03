@@ -11,15 +11,15 @@ You are being asked to develop a backend using FastAPI for a (simplified) magazi
 
 ### Magazine
 
-A `magazine` that is available for subscription. Includes metadata about the magazine such as the `name`, `description`, and a `base_price` (which is the price charged for a monthly subscription)The `base_price` is a numerical value and must be greater than zero.
+A `magazine` that is available for subscription. Includes metadata about the magazine such as the `name`, `description`, and a `base_price` (which is the price charged for a monthly subscription). The `base_price` is a numerical value and must be greater than zero.
 
 ### Plan
 
 Plans to which users can subscribe their magazines. A `Plan` object has the following properties: `title`, a `description`, a `renewalPeriod`, `discount` - a percentage, expressed as a decimal - for this plan (e.g. a `discount` of `0.1` means a 10% discount),and a `tier`. The `tier` is a numerical value that represents the level of the plan. The higher the `tier`, the more expensive the plan.
 
-The `renewalPeriod` is a numerical value. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `1` means that the subscription renews every month.
+The `renewalPeriod` is a numerical value that represents the number of months in which the subscription would renew. Renewal periods CANNOT be zero. For example, a `renewalPeriod` of `1` means that the subscription renews every month.
 
-Obviously, the `Plan` table must have a relationship (via a field named `magazine_id`) to the `Magazine` table so that we can track which plans are available for which magazines since not all plans are available for all magazines. 
+Obviously, the `Plan` table must have a relationship (via a field named `magazine_id`) to the `Magazine` table so that we can track which plans are available for which magazines since not all plans are available for all magazines.
 
 The 4 plans that you must support are given below. Once again, remember that not all plans are available for every magazine.
 
@@ -57,7 +57,9 @@ The 4 plans that you must support are given below. Once again, remember that not
 
 ### Subscription
 
-A `Subscription` tracks which `Plan` is associated with which `Magazine` for that user. The subscription also tracks the price at renewal for that magazine and the next renewal date. For record keeping purposes, subscriptions are never deleted. If a user cancels a subscription to a magazine, the corresponding `is_active` attribute of that `Subscription` is set to `False`. Inactive subscriptions are never returned in the response when the user queries their subscriptions.
+A `Subscription` tracks which `Plan` is associated with which `Magazine` for that user. The subscription also tracks the price at renewal for that magazine and the next renewal date. The price is calculated as the `base_price` of the magazine discounted by the `discount` of the plan. For example, if the base price of the magazine is `100` and the plan discount is `0.10`, the price will be `90`. The `price` is a numerical value and must be greater than zero.
+
+For record keeping purposes, subscriptions are never deleted. If a user cancels a subscription to a magazine, the corresponding `is_active` attribute of that `Subscription` is set to `False`. Inactive subscriptions are never returned in the response when the user queries their subscriptions.
 
 
 ## Business Rules
